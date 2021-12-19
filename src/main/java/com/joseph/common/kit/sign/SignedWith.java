@@ -26,6 +26,11 @@ public interface SignedWith {
     String constructRawMaterial();
 
     /**
+     * 拼接密钥
+     */
+    String concatSecret(String rawMaterial);
+
+    /**
      * 获取待验签的签名
      *
      * @return sign to compared

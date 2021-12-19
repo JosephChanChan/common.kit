@@ -25,9 +25,9 @@ public class SignModel {
     private String secret;
 
 
-    public boolean necessaryParamCheck() {
-        return (null == rawMaterial || rawMaterial.length() == 0) ||
-                (null == targetSign || targetSign.length() == 0);
+    public boolean necessaryParamValid() {
+        return (null != rawMaterial && rawMaterial.length() > 0) &&
+                (null != targetSign && targetSign.length() > 0);
     }
 
     public boolean rawMaterialCheck() {

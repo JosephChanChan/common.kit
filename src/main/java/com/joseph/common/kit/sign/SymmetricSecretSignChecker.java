@@ -13,7 +13,7 @@ public class SymmetricSecretSignChecker implements SignChecker {
 
     @Override
     public void signCheck(SignModel signModel, SignAlgorithm signAlgorithm) {
-        if (!signModel.necessaryParamCheck()) {
+        if (!signModel.necessaryParamValid()) {
             SignCheckContext.setCheckResult(SignedCheckResult.signedCheckFail("rawMaterial or targetSign is absent!"));
             return;
         }
@@ -24,7 +24,7 @@ public class SymmetricSecretSignChecker implements SignChecker {
             SignCheckContext.setCheckResult(SignedCheckResult.signedCheckSuccess());
         }
         else {
-            log.warn("Both sign and targetSign not match!");
+            log.warn("Both sign and targetSign not match! sign {} and targetSign {}!", sign, targetSign);
             SignCheckContext.setCheckResult(SignedCheckResult.signedCheckFail("Both sign and targetSign not match!"));
         }
     }

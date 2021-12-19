@@ -15,9 +15,7 @@ import java.lang.annotation.Target;
  */
 @Slf4j
 @Aspect
-@Component
 public class SignCheckAspect {
-
 
 
     @Before("@annotation(com.joseph.common.kit.sign.SignCheck)")
@@ -40,8 +38,10 @@ public class SignCheckAspect {
         SignChecker signChecker = signedWith.chooseSignChecker();
         SignAlgorithm signAlgorithm = SignAlgorithmEnum.choose(signedWith.signAlgorithmChoose());
 
-        log.info("logStr {}, signChecker {}, signAlgorithm {}, rawMaterial {}, targetSign {}, begin check!",
-                logStr, signChecker.getCheckerName(), signedWith.signAlgorithmChoose().name(), signModel.getRawMaterial(), signModel.getTargetSign());
+        log.info("logStr {}, signChecker {}, signAlgorithm {}, rawMaterial {}, begin check!",
+                logStr, signChecker.getCheckerName(), signedWith.signAlgorithmChoose().name(), signModel.getRawMaterial());
+
+        signModel.setRawMaterial(signedWith.concatSecret(signModel.getRawMaterial()));
 
         try {
             signChecker.signCheck(signModel, signAlgorithm);
