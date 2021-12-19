@@ -1,4 +1,4 @@
-package com.joseph.common.kit.sign;
+package com.joseph.common.kit.sign.model;
 
 import lombok.Data;
 
@@ -19,11 +19,6 @@ public class SignModel {
      */
     private String targetSign;
 
-    /**
-     * 密钥
-     */
-    private String secret;
-
 
     public boolean necessaryParamValid() {
         return (null != rawMaterial && rawMaterial.length() > 0) &&
@@ -32,10 +27,6 @@ public class SignModel {
 
     public boolean rawMaterialCheck() {
         return null == rawMaterial || rawMaterial.length() == 0;
-    }
-
-    public boolean secretCheck() {
-        return null == secret || secret.length() == 0;
     }
 
 }

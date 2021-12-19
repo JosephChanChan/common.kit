@@ -13,5 +13,20 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SignCheck {
 
+    /**
+     * 从IOC容器拿到用户指定的密钥加载器。
+     * 需实现SecretLoader接口
+     *
+     * @return 用户自定义的加载器名称
+     */
+    String secretLoaderByName();
+
+    /**
+     * 从IOC容器拿到用户指定的密钥加载器。
+     * 需实现SecretLoader接口
+     *
+     * @return 用户自定义的加载器Class
+     */
+    Class<?> secretLoaderByClass();
 
 }

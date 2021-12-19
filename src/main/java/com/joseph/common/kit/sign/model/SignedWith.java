@@ -1,4 +1,8 @@
-package com.joseph.common.kit.sign;
+package com.joseph.common.kit.sign.model;
+
+import com.joseph.common.kit.sign.strategy.SignChecker;
+import com.joseph.common.kit.sign.strategy.SymmetricSecretSignChecker;
+import com.joseph.common.kit.sign.algorithms.SignAlgorithmEnum;
 
 /**
  * @author Joseph
@@ -26,11 +30,6 @@ public interface SignedWith {
     String constructRawMaterial();
 
     /**
-     * 拼接密钥
-     */
-    String concatSecret(String rawMaterial);
-
-    /**
      * 获取待验签的签名
      *
      * @return sign to compared
@@ -42,7 +41,9 @@ public interface SignedWith {
      *
      * @return SignChecker
      */
-    SignChecker chooseSignChecker();
+    default SignChecker chooseSignChecker() {
+        return new SymmetricSecretSignChecker();
+    }
 
     /**
      * 选择签名算法

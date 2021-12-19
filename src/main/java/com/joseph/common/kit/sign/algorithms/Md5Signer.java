@@ -1,8 +1,7 @@
-package com.joseph.common.kit.sign;
+package com.joseph.common.kit.sign.algorithms;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

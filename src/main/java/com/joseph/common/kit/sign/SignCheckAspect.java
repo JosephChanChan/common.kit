@@ -1,13 +1,21 @@
 package com.joseph.common.kit.sign;
 
+import com.joseph.common.kit.sign.algorithms.SignAlgorithm;
+import com.joseph.common.kit.sign.algorithms.SignAlgorithmEnum;
+import com.joseph.common.kit.sign.loader.SecretLoader;
+import com.joseph.common.kit.sign.model.SignModel;
+import com.joseph.common.kit.sign.model.SignedCheckResult;
+import com.joseph.common.kit.sign.model.SignedWith;
+import com.joseph.common.kit.sign.spring.SpringCoordinator;
+import com.joseph.common.kit.sign.strategy.SignChecker;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.stereotype.Component;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.lang.annotation.Target;
+import java.lang.reflect.Method;
 
 /**
  * @author Joseph
@@ -17,6 +25,8 @@ import java.lang.annotation.Target;
 @Aspect
 public class SignCheckAspect {
 
+    @Autowired
+    private SpringCoordinator springCoordinator;
 
     @Before("@annotation(com.joseph.common.kit.sign.SignCheck)")
     public void signCheckIntercept(JoinPoint joinPoint) {
@@ -41,7 +51,16 @@ public class SignCheckAspect {
         log.info("logStr {}, signChecker {}, signAlgorithm {}, rawMaterial {}, begin check!",
                 logStr, signChecker.getCheckerName(), signedWith.signAlgorithmChoose().name(), signModel.getRawMaterial());
 
-        signModel.setRawMaterial(signedWith.concatSecret(signModel.getRawMaterial()));
+        try {
+            SecretLoader secretLoader = getSecretLoader(joinPoint);
+            String secret = secretLoader.loadSecret(signedWith);
+            signModel.setRawMaterial(secretLoader.concatSecret(secret, signModel.getRawMaterial()));
+        }
+        catch (Throwable e) {
+            log.error("logStr {}, loadSecret error!", logStr, e);
+            SignCheckContext.setCheckResult(SignedCheckResult.signedCheckFail("signCheckIntercept error!"));
+            return;
+        }
 
         try {
             signChecker.signCheck(signModel, signAlgorithm);
@@ -62,6 +81,30 @@ public class SignCheckAspect {
             }
         }
         return signedWith;
+    }
+
+    private SecretLoader getSecretLoader(JoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Method method = methodSignature.getMethod();
+        SignCheck annotation = method.getAnnotation(SignCheck.class);
+
+        SecretLoader secretLoader = getSecretLoader(annotation.secretLoaderByName());
+        if (null == secretLoader) {
+            secretLoader = getSecretLoader(annotation.secretLoaderByClass());
+        }
+        if (null == secretLoader) {
+            throw new IllegalArgumentException("method " + method.getName() +
+                    " signCheck annotation get no SecretLoader by name and class!");
+        }
+        return secretLoader;
+    }
+
+    private SecretLoader getSecretLoader(String loaderName) {
+        return springCoordinator.getLoaderByName(loaderName);
+    }
+
+    private SecretLoader getSecretLoader(Class<?> clazz) {
+        return springCoordinator.getLoaderByType(clazz);
     }
 
 

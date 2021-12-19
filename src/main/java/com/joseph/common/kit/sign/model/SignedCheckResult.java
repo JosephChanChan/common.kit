@@ -1,6 +1,5 @@
-package com.joseph.common.kit.sign;
+package com.joseph.common.kit.sign.model;
 
-import lombok.Data;
 import lombok.Getter;
 
 /**

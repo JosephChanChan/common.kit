@@ -1,5 +1,7 @@
 package com.joseph.common.kit.sign;
 
+import com.joseph.common.kit.sign.model.SignedCheckResult;
+
 /**
  * @author Joseph
  * @since 2021-12-19 14:46

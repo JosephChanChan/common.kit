@@ -1,4 +1,4 @@
-package com.joseph.common.kit.sign;
+package com.joseph.common.kit.sign.algorithms;
 
 import java.security.NoSuchAlgorithmException;
 

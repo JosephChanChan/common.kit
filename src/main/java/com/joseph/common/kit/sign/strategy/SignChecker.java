@@ -1,4 +1,7 @@
-package com.joseph.common.kit.sign;
+package com.joseph.common.kit.sign.strategy;
+
+import com.joseph.common.kit.sign.algorithms.SignAlgorithm;
+import com.joseph.common.kit.sign.model.SignModel;
 
 /**
  * @author Joseph
