@@ -34,7 +34,7 @@ public class Md5Signer implements SignAlgorithm {
      * @return MD5结果
      */
     public String md5(String data) throws NoSuchAlgorithmException {
-        java.security.MessageDigest md = MessageDigest.getInstance("MD5");
+        MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] array = md.digest(data.getBytes(StandardCharsets.UTF_8));
         StringBuilder sb = new StringBuilder();
         for (byte item : array) {

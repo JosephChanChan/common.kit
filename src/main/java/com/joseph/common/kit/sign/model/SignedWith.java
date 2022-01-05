@@ -1,8 +1,9 @@
 package com.joseph.common.kit.sign.model;
 
+
+import com.joseph.common.kit.sign.algorithms.SignAlgorithmEnum;
 import com.joseph.common.kit.sign.strategy.SignChecker;
 import com.joseph.common.kit.sign.strategy.SymmetricSecretSignChecker;
-import com.joseph.common.kit.sign.algorithms.SignAlgorithmEnum;
 
 /**
  * @author Joseph
@@ -35,6 +36,13 @@ public interface SignedWith {
      * @return sign to compared
      */
     String getTargetSign();
+
+    /**
+     * 获取商户API身份
+     *
+     * @return appId
+     */
+    String getAppId();
 
     /**
      * 选择签名校验对象

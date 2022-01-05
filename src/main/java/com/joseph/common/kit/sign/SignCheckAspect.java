@@ -2,6 +2,7 @@ package com.joseph.common.kit.sign;
 
 import com.joseph.common.kit.sign.algorithms.SignAlgorithm;
 import com.joseph.common.kit.sign.algorithms.SignAlgorithmEnum;
+import com.joseph.common.kit.sign.exception.SignException;
 import com.joseph.common.kit.sign.loader.SecretLoader;
 import com.joseph.common.kit.sign.model.SignModel;
 import com.joseph.common.kit.sign.model.SignedCheckResult;
@@ -28,7 +29,7 @@ public class SignCheckAspect {
     @Autowired
     private SpringCoordinator springCoordinator;
 
-    @Before("@annotation(com.joseph.common.kit.sign.SignCheck)")
+    @Before("@annotation(com.zhuanzhuan.zlj.common.sign.SignCheck)")
     public void signCheckIntercept(JoinPoint joinPoint) {
         log.info("SignCheckAspect.signCheckIntercept working!");
 
@@ -55,6 +56,11 @@ public class SignCheckAspect {
             SecretLoader secretLoader = getSecretLoader(joinPoint);
             String secret = secretLoader.loadSecret(signedWith);
             signModel.setRawMaterial(secretLoader.concatSecret(secret, signModel.getRawMaterial()));
+        }
+        catch (SignException se) {
+            log.error("logStr {}, SignException occurred!", logStr, se);
+            SignCheckContext.setCheckResult(SignedCheckResult.signedCheckFail(se.getMessage()));
+            return;
         }
         catch (Throwable e) {
             log.error("logStr {}, loadSecret error!", logStr, e);
