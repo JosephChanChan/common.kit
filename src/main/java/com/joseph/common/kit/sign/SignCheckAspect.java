@@ -29,7 +29,7 @@ public class SignCheckAspect {
     @Autowired
     private SpringCoordinator springCoordinator;
 
-    @Before("@annotation(com.zhuanzhuan.zlj.common.sign.SignCheck)")
+    @Before("@annotation(com.joseph.common.kit.sign.SignCheck)")
     public void signCheckIntercept(JoinPoint joinPoint) {
         log.info("SignCheckAspect.signCheckIntercept working!");
 
