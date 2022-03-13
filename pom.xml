@@ -6,12 +6,22 @@
 
     <groupId>com.joseph</groupId>
     <artifactId>common.kit</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1</version>
 
     <properties>
+        <!-- 此处配置的名称要和maven配置文件对应的serverId一致 -->
+        <github.global.server>github</github.global.server>
         <spring-boot-autoconfigure.version>2.3.4.RELEASE</spring-boot-autoconfigure.version>
         <spring-boot-configuration-processor.version>2.3.4.RELEASE</spring-boot-configuration-processor.version>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>josephchanchan</name>
+            <url>https://maven.pkg.github.com/josephchanchan/common.kit</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
 
@@ -43,7 +53,10 @@
     </dependencies>
 
     <build>
+
+        <!-- 此tag下面的所有plugins都是关于上传jar包的依赖 -->
         <plugins>
+
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
@@ -69,46 +82,6 @@
                 </executions>
             </plugin>
 
-            <!--1.作用：将jar deploy(发布)到本地储存库位置(altDeploymentRepository)-->
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.1</version>
-                <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/repository</altDeploymentRepository>
-                </configuration>
-            </plugin>
-
-            <!--2.作用：将本地存储库位置的jar文件发布到github上-->
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version >0.12</version>
-                <configuration>
-                    <server>github</server>
-                    <message >Maven artifacts for ${project.version}</message>
-                    <noJekyll>true</noJekyll>
-                    <!--本地jar相关文件地址，与上方配置储存库位置(altDeploymentRepository)保持一致-->
-                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-                    <!--配置上传到github哪个分支，此处配置格式必须以refs/heads/+分支名称-->
-                    <branch>refs/heads/master</branch>
-                    <merge>true</merge>
-                    <includes>
-                        <include>**/*</include>
-                    </includes>
-                    <!--对应github上创建的仓库名称 name-->
-                    <repositoryName>common.kit</repositoryName>
-                    <!--github 仓库所有者即登录用户名-->
-                    <repositoryOwner>JosephCGH@163.com</repositoryOwner>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
-            </plugin>
 
         </plugins>
     </build>

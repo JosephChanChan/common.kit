@@ -5,7 +5,6 @@ import java.util.Map;
 
 /**
  * @author Joseph
- * @since 2022-01-02 23:19
  */
 public class CollectionsKit {
 
@@ -24,5 +23,7 @@ public class CollectionsKit {
     public static boolean isNotEmpty(Map map) {
         return !isEmpty(map);
     }
+
+
 
 }
