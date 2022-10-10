@@ -1,9 +1,13 @@
 package com.joseph.common.kit;
 
+import java.math.BigDecimal;
+
 /**
  * @author Joseph
  */
 public class NumberKit {
+
+    private static final BigDecimal DECIMAL_ZERO = new BigDecimal("0");
 
     public static boolean gt0(Number number) {
         if (null == number) {
@@ -14,6 +18,9 @@ public class NumberKit {
         }
         else if (number instanceof Double) {
             return number.doubleValue() > 0.0d;
+        }
+        else if (number instanceof BigDecimal) {
+            return ((BigDecimal) number).compareTo(DECIMAL_ZERO) > 0;
         }
         else {
             return number.longValue() > 0;
@@ -29,6 +36,9 @@ public class NumberKit {
         }
         else if (number instanceof Double) {
             return number.doubleValue() < 0.0d;
+        }
+        else if (number instanceof BigDecimal) {
+            return ((BigDecimal) number).compareTo(DECIMAL_ZERO) < 0;
         }
         else {
             return number.longValue() < 0;

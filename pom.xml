@@ -6,7 +6,7 @@
 
     <groupId>com.joseph</groupId>
     <artifactId>common.kit</artifactId>
-    <version>1.3</version>
+    <version>1.4</version>
 
     <properties>
         <!-- 此处配置的名称要和maven配置文件对应的serverId一致 -->
