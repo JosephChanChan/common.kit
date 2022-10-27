@@ -7,6 +7,7 @@ import java.util.*;
  */
 public class CollectionsKit {
 
+    
     public static boolean isEmpty(Collection collection) {
         return null == collection || collection.isEmpty();
     }
